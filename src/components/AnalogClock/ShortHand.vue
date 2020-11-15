@@ -10,8 +10,8 @@ import { hour } from "./clock";
 
 export default defineComponent({
   props: {
-    time: { type: Number, default: 0 }
+    time: { type: Number, default: 0 },
   },
-  setup: () => ({ hour })
+  setup: () => ({ hour }),
 });
 </script>

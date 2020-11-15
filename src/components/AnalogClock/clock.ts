@@ -1,4 +1,4 @@
-import { ref, onMounted, onBeforeUnmount } from "@vue/composition-api";
+import { ref, onMounted, onBeforeUnmount, Ref } from "@vue/composition-api";
 
 const HOUR = 12 * 60 * 60 * 1000;
 const MINUTE = 60 * 60 * 1000;
@@ -9,7 +9,14 @@ interface ClockOptions {
   smooth?: boolean;
 }
 
-export const useClock = ({ offset = 0, smooth = false }: ClockOptions = {}) => {
+interface Clock {
+  time: Ref<number>;
+}
+
+export const useClock = ({
+  offset = 0,
+  smooth = false,
+}: ClockOptions = {}): Clock => {
   const time = ref(0);
 
   let frame: number | null = null;
@@ -36,6 +43,8 @@ export const useClock = ({ offset = 0, smooth = false }: ClockOptions = {}) => {
   return { time };
 };
 
-export const hour = (time: number) => (360 * (time % HOUR)) / HOUR;
-export const minute = (time: number) => (360 * (time % MINUTE)) / MINUTE;
-export const second = (time: number) => (360 * (time % SECOND)) / SECOND;
+export const hour = (time: number): number => (360 * (time % HOUR)) / HOUR;
+export const minute = (time: number): number =>
+  (360 * (time % MINUTE)) / MINUTE;
+export const second = (time: number): number =>
+  (360 * (time % SECOND)) / SECOND;

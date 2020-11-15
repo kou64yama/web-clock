@@ -9,7 +9,7 @@ import {
   defineComponent,
   ref,
   onMounted,
-  onBeforeMount
+  onBeforeMount,
 } from "@vue/composition-api";
 import AnalogClock, { useClock } from "@/components/AnalogClock";
 
@@ -17,7 +17,7 @@ const offset = new Date(0).getTimezoneOffset();
 
 export default defineComponent({
   components: {
-    AnalogClock
+    AnalogClock,
   },
   setup: () => {
     const root = ref<HTMLDivElement>();
@@ -40,7 +40,7 @@ export default defineComponent({
     });
 
     return { root, time, size };
-  }
+  },
 });
 </script>
 

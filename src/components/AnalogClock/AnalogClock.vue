@@ -27,13 +27,13 @@ import SecondHand from "./SecondHand.vue";
 export default defineComponent({
   props: {
     time: { type: Number, default: 0 },
-    size: { type: Number, default: 240 }
+    size: { type: Number, default: 240 },
   },
   components: {
     ClockFace,
     ShortHand,
     LongHand,
-    SecondHand
-  }
+    SecondHand,
+  },
 });
 </script>
