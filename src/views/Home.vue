@@ -1,18 +1,54 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <div :class="$style.root" ref="root">
+    <analog-clock :time="time" :size="size" />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import {
+  defineComponent,
+  ref,
+  onMounted,
+  onBeforeMount
+} from "@vue/composition-api";
+import AnalogClock, { useClock } from "@/components/AnalogClock";
 
-export default Vue.extend({
-  name: "Home",
+const offset = new Date(0).getTimezoneOffset();
+
+export default defineComponent({
   components: {
-    HelloWorld
+    AnalogClock
+  },
+  setup: () => {
+    const root = ref<HTMLDivElement>();
+    const { time } = useClock({ offset });
+    const size = ref(0);
+
+    let frame: number | null = null;
+
+    const resize = () => {
+      frame = requestAnimationFrame(resize);
+      if (root.value) {
+        size.value = Math.min(root.value.clientWidth, root.value.clientHeight);
+      }
+    };
+
+    onMounted(resize);
+
+    onBeforeMount(() => {
+      if (frame) cancelAnimationFrame(frame);
+    });
+
+    return { root, time, size };
   }
 });
 </script>
+
+<style module>
+.root {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+</style>
