@@ -26,9 +26,9 @@ import { defineComponent } from "@vue/composition-api";
 
 const scales = new Array(60)
   .fill(0)
-  .reduce(acc => [...acc, acc.length * 6], []);
+  .reduce((acc) => [...acc, acc.length * 6], []);
 
 export default defineComponent({
-  setup: () => ({ scales })
+  setup: () => ({ scales }),
 });
 </script>

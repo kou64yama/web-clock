@@ -8,7 +8,7 @@ localVue.use(CompositionApi);
 describe("AnalogClock", () => {
   it("renders correctly", () => {
     const wrapper = mount(AnalogClock, {
-      localVue
+      localVue,
     });
     expect(wrapper.element).toMatchSnapshot();
   });
