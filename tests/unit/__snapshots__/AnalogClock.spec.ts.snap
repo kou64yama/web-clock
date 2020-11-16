@@ -13,6 +13,136 @@ exports[`AnalogClock renders correctly 1`] = `
     transform="scale(2.4)"
   >
     <g>
+      <circle
+        cx="50"
+        cy="50"
+        fill="transparent"
+        r="47"
+        stroke="#000000"
+        stroke-width="0.3"
+      />
+       
+      <text
+        dominant-baseline="central"
+        font-family="DM Serif Display"
+        font-size="10"
+        text-anchor="middle"
+        x="68.5"
+        y="17.957060059975767"
+      >
+        1
+      </text>
+      <text
+        dominant-baseline="central"
+        font-family="DM Serif Display"
+        font-size="10"
+        text-anchor="middle"
+        x="82.04293994002423"
+        y="31.499999999999996"
+      >
+        2
+      </text>
+      <text
+        dominant-baseline="central"
+        font-family="DM Serif Display"
+        font-size="10"
+        text-anchor="middle"
+        x="87"
+        y="50"
+      >
+        3
+      </text>
+      <text
+        dominant-baseline="central"
+        font-family="DM Serif Display"
+        font-size="10"
+        text-anchor="middle"
+        x="82.04293994002424"
+        y="68.5"
+      >
+        4
+      </text>
+      <text
+        dominant-baseline="central"
+        font-family="DM Serif Display"
+        font-size="10"
+        text-anchor="middle"
+        x="68.5"
+        y="82.04293994002424"
+      >
+        5
+      </text>
+      <text
+        dominant-baseline="central"
+        font-family="DM Serif Display"
+        font-size="10"
+        text-anchor="middle"
+        x="50.00000000000001"
+        y="87"
+      >
+        6
+      </text>
+      <text
+        dominant-baseline="central"
+        font-family="DM Serif Display"
+        font-size="10"
+        text-anchor="middle"
+        x="31.50000000000001"
+        y="82.04293994002424"
+      >
+        7
+      </text>
+      <text
+        dominant-baseline="central"
+        font-family="DM Serif Display"
+        font-size="10"
+        text-anchor="middle"
+        x="17.957060059975774"
+        y="68.50000000000001"
+      >
+        8
+      </text>
+      <text
+        dominant-baseline="central"
+        font-family="DM Serif Display"
+        font-size="10"
+        text-anchor="middle"
+        x="13"
+        y="50.00000000000001"
+      >
+        9
+      </text>
+      <text
+        dominant-baseline="central"
+        font-family="DM Serif Display"
+        font-size="10"
+        text-anchor="middle"
+        x="17.957060059975774"
+        y="31.499999999999996"
+      >
+        10
+      </text>
+      <text
+        dominant-baseline="central"
+        font-family="DM Serif Display"
+        font-size="10"
+        text-anchor="middle"
+        x="31.499999999999982"
+        y="17.95706005997578"
+      >
+        11
+      </text>
+      <text
+        dominant-baseline="central"
+        font-family="DM Serif Display"
+        font-size="10"
+        text-anchor="middle"
+        x="49.99999999999999"
+        y="13"
+      >
+        12
+      </text>
+       
       <path
         d="M 50 5 L 50 7"
         stroke="#000000"
