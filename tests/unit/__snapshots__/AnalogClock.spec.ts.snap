@@ -12,9 +12,7 @@ exports[`AnalogClock renders correctly 1`] = `
   <g
     transform="scale(2.4)"
   >
-    <g
-      size="240"
-    >
+    <g>
       <path
         d="M 50 5 L 50 7"
         stroke="#000000"
@@ -378,7 +376,6 @@ exports[`AnalogClock renders correctly 1`] = `
     </g>
      
     <g
-      size="240"
       transform="rotate(0, 50, 50)"
     >
       <path
@@ -389,7 +386,6 @@ exports[`AnalogClock renders correctly 1`] = `
     </g>
      
     <g
-      size="240"
       transform="rotate(0, 50, 50)"
     >
       <path
@@ -400,7 +396,6 @@ exports[`AnalogClock renders correctly 1`] = `
     </g>
      
     <g
-      size="240"
       transform="rotate(0, 50, 50)"
     >
       <path

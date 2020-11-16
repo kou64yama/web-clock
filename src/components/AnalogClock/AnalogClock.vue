@@ -8,10 +8,10 @@
     role="presentation"
   >
     <g :transform="`scale(${size / 100})`">
-      <clock-face :size="size" />
-      <short-hand :time="time" :size="size" />
-      <long-hand :time="time" :size="size" />
-      <second-hand :time="time" :size="size" />
+      <clock-face />
+      <short-hand :time="time" />
+      <long-hand :time="time" />
+      <second-hand :time="time" />
     </g>
   </svg>
 </template>
