@@ -1,20 +1,19 @@
 <template>
-  <div>
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      :width="size"
-      :height="size"
-      :viewBox="`0 0 ${size} ${size}`"
-      role="presentation"
-    >
-      <g :transform="`scale(${size / 100})`">
-        <clock-face :size="size" />
-        <short-hand :time="time" :size="size" />
-        <long-hand :time="time" :size="size" />
-        <second-hand :time="time" :size="size" />
-      </g>
-    </svg>
-  </div>
+  <svg
+    style="display: block"
+    xmlns="http://www.w3.org/2000/svg"
+    :width="size"
+    :height="size"
+    :viewBox="`0 0 ${size} ${size}`"
+    role="presentation"
+  >
+    <g :transform="`scale(${size / 100})`">
+      <clock-face :size="size" />
+      <short-hand :time="time" :size="size" />
+      <long-hand :time="time" :size="size" />
+      <second-hand :time="time" :size="size" />
+    </g>
+  </svg>
 </template>
 
 <script lang="ts">
