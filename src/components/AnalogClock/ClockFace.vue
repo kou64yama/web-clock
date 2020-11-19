@@ -1,41 +1,132 @@
 <template>
-  <g>
-    <circle
-      cx="50"
-      cy="50"
-      r="47"
-      fill="transparent"
-      stroke="#000000"
-      stroke-width="0.3"
-    />
-    <template v-for="i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]">
+  <g font-family="DM Serif Display">
+    <circle cx="50" cy="50" r="50" fill="#222222" />
+    <circle cx="50" cy="50" r="45" fill="#111111" />
+    <circle cx="50" cy="70" r="13" fill="#222222" />
+    <circle cx="30" cy="50" r="13" fill="#222222" />
+    <circle cx="70" cy="50" r="13" fill="#222222" />
+    <template v-for="i in range(0, 299)">
+      <path
+        :key="`main.scale.${i}`"
+        v-if="i % 75 === 0"
+        :d="`M 50 6 L 50 9`"
+        stroke="#ff0000"
+        stroke-width="0.7"
+        :transform="`rotate(${(i * 360) / 300}, 50, 50)`"
+      />
+      <path
+        :key="`main.scale.${i}`"
+        v-else-if="i % 25 === 0"
+        :d="`M 50 6 L 50 9`"
+        stroke="#cccccc"
+        stroke-width="0.5"
+        :transform="`rotate(${(i * 360) / 300}, 50, 50)`"
+      />
+      <path
+        :key="`main.scale.${i}`"
+        v-else-if="i % 5 === 0"
+        :d="`M 50 6 L 50 9`"
+        stroke="#cccccc"
+        stroke-width="0.2"
+        :transform="`rotate(${(i * 360) / 300}, 50, 50)`"
+      />
+      <path
+        :key="`main.scale.${i}`"
+        v-else
+        :d="`M 50 7 L 50 8`"
+        stroke="#cccccc"
+        stroke-width="0.2"
+        :transform="`rotate(${(i * 360) / 300}, 50, 50)`"
+      />
+    </template>
+    <template v-for="i in range(0, 11)">
+      <path
+        :key="`main.scale-symbol.${i}`"
+        :d="`M 50 10 L 50 15`"
+        stroke="#cccccc"
+        stroke-width="2"
+        :transform="`rotate(${i * 30}, 50, 50)`"
+      />
+    </template>
+    <template v-for="i in range(0, 59)">
+      <path
+        :key="`small-second.scale.${i}`"
+        v-if="i % 5 === 0"
+        :d="`M 30 37.5 L 30 40`"
+        stroke="#cccccc"
+        stroke-width="0.3"
+        :transform="`rotate(${i * 6}, 30, 50)`"
+      />
+      <path
+        :key="`small-second.scale.${i}`"
+        v-else
+        :d="`M 30 37.5 L 30 39`"
+        stroke="#cccccc"
+        stroke-width="0.2"
+        :transform="`rotate(${i * 6}, 30, 50)`"
+      />
+    </template>
+    <template v-for="i in range(0, 29)">
+      <path
+        :key="`30-minute-totalizer.scale.${i}`"
+        v-if="i % 5 === 0"
+        :d="`M 70 37.5 L 70 40`"
+        stroke="#cccccc"
+        stroke-width="0.3"
+        :transform="`rotate(${i * 12}, 70, 50)`"
+      />
+      <path
+        :key="`30-minute-totalizer.scale.${i}`"
+        v-else
+        :d="`M 70 37.5 L 70 39`"
+        stroke="#cccccc"
+        stroke-width="0.2"
+        :transform="`rotate(${i * 12}, 70, 50)`"
+      />
+    </template>
+    <template v-for="i in range(0, 11)">
+      <path
+        :key="`12-hour-totalizer.scale.${i}`"
+        :d="`M 50 57.5 L 50 59`"
+        stroke="#cccccc"
+        stroke-width="0.2"
+        :transform="`rotate(${i * 30}, 50, 70)`"
+      />
+    </template>
+    <template v-for="i in [30, 60]">
       <text
-        :key="i"
-        :x="50 + 37 * sin((PI * i) / 6)"
-        :y="50 - 37 * cos((PI * i) / 6)"
-        font-size="10"
-        font-family="DM Serif Display"
+        :key="`small-second.label.${i}`"
+        :x="30 + 7 * sin((PI * i) / 30)"
+        :y="50 - 7 * cos((PI * i) / 30)"
+        font-size="4"
         text-anchor="middle"
         dominant-baseline="central"
+        fill="#cccccc"
         v-text="i"
       />
     </template>
-    <template v-for="i in scales">
-      <path
-        v-if="i % 30 === 0"
-        :key="i"
-        :d="`M 50 5 L 50 7`"
-        stroke="#000000"
-        stroke-width="2"
-        :transform="`rotate(${i}, 50, 50)`"
+    <template v-for="i in [10, 20, 30]">
+      <text
+        :key="`30-minute-totalizer.label.${i}`"
+        :x="70 + 7 * sin((PI * i) / 15)"
+        :y="50 - 7 * cos((PI * i) / 15)"
+        font-size="4"
+        text-anchor="middle"
+        dominant-baseline="central"
+        fill="#cccccc"
+        v-text="i"
       />
-      <path
-        v-else
-        :key="i"
-        :d="`M 50 5 L 50 6`"
-        stroke="#000000"
-        stroke-width="1"
-        :transform="`rotate(${i}, 50, 50)`"
+    </template>
+    <template v-for="i in [3, 6, 9, 12]">
+      <text
+        :key="`12-hour-totalizer.label.${i}`"
+        :x="50 + 9 * sin((PI * i) / 6)"
+        :y="70 - 9 * cos((PI * i) / 6)"
+        font-size="4"
+        text-anchor="middle"
+        dominant-baseline="central"
+        fill="#cccccc"
+        v-text="i"
       />
     </template>
   </g>
@@ -44,14 +135,15 @@
 <script lang="ts">
 import { defineComponent } from "@vue/composition-api";
 
-const scales = new Array(60)
-  .fill(0)
-  .reduce((acc) => [...acc, acc.length * 6], []);
 const PI = Math.PI;
+const range = (start: number, end: number) =>
+  new Array(end - start + 1)
+    .fill(0)
+    .reduce<number[]>((acc) => [...acc, acc.length], []);
 const sin = (x: number): number => Math.sin(x);
 const cos = (x: number): number => Math.cos(x);
 
 export default defineComponent({
-  setup: () => ({ scales, PI, sin, cos }),
+  setup: () => ({ PI, range, sin, cos }),
 });
 </script>

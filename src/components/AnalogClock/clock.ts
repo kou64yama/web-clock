@@ -1,34 +1,23 @@
-import { ref, onMounted, onBeforeUnmount, Ref } from "@vue/composition-api";
-
-const HOUR = 12 * 60 * 60 * 1000;
-const MINUTE = 60 * 60 * 1000;
-const SECOND = 60 * 1000;
-
-interface ClockOptions {
-  offset?: number;
-  smooth?: boolean;
-}
+import {
+  ref,
+  computed,
+  onMounted,
+  onBeforeUnmount,
+  ComputedRef,
+} from "@vue/composition-api";
 
 interface Clock {
-  time: Ref<number>;
+  quartz: ComputedRef<number>;
 }
 
-export const useClock = ({
-  offset = 0,
-  smooth = false,
-}: ClockOptions = {}): Clock => {
-  const time = ref(0);
-
+export const useClock = (): Clock => {
   let frame: number | null = null;
+  const quartz = ref(0);
 
   const tick = () => {
-    let value = Date.now() - offset * 60 * 1000;
-    if (!smooth) {
-      value = Math.floor(value / 1000) * 1000;
-    }
-
-    if (time.value !== value) {
-      time.value = value;
+    const value = Date.now();
+    if (quartz.value !== value) {
+      quartz.value = value;
     }
 
     frame = requestAnimationFrame(tick);
@@ -40,11 +29,5 @@ export const useClock = ({
     if (frame !== null) cancelAnimationFrame(frame);
   });
 
-  return { time };
+  return { quartz: computed(() => quartz.value) };
 };
-
-export const hour = (time: number): number => (360 * (time % HOUR)) / HOUR;
-export const minute = (time: number): number =>
-  (360 * (time % MINUTE)) / MINUTE;
-export const second = (time: number): number =>
-  (360 * (time % SECOND)) / SECOND;
