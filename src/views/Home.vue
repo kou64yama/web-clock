@@ -1,6 +1,13 @@
 <template>
-  <div :class="$style.root" ref="root">
-    <analog-clock :time="time" :size="size" />
+  <div class="home" ref="root">
+    <analog-clock
+      :quartz="quartz"
+      :offset="offset"
+      :duration="duration"
+      :size="size"
+      @clock-click="chronograph.startOrStop"
+      @clock-contextmenu="chronograph.reset"
+    />
   </div>
 </template>
 
@@ -11,7 +18,10 @@ import {
   onMounted,
   onBeforeMount,
 } from "@vue/composition-api";
-import AnalogClock, { useClock } from "@/components/AnalogClock";
+import AnalogClock, {
+  useClock,
+  useChronograph,
+} from "@/components/AnalogClock";
 
 const offset = new Date(0).getTimezoneOffset();
 
@@ -21,7 +31,8 @@ export default defineComponent({
   },
   setup: () => {
     const root = ref<HTMLDivElement>();
-    const { time } = useClock({ offset });
+    const { quartz } = useClock();
+    const { duration, ...chronograph } = useChronograph(quartz);
     const size = ref(0);
 
     let frame: number | null = null;
@@ -39,16 +50,17 @@ export default defineComponent({
       if (frame) cancelAnimationFrame(frame);
     });
 
-    return { root, time, size };
+    return { root, quartz, offset, duration, size, chronograph };
   },
 });
 </script>
 
-<style module>
-.root {
+<style scoped>
+.home {
   display: flex;
   height: 100%;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 </style>
