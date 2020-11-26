@@ -1,10 +1,5 @@
-import {
-  ref,
-  computed,
-  onMounted,
-  watch,
-  ComputedRef,
-} from "@vue/composition-api";
+import { computed, ComputedRef } from "@vue/composition-api";
+import { useLocalStorage } from "@/compositions/local-storage";
 
 const STARTED = "chronograph.started";
 const DURATION = "chronograph.duration";
@@ -16,30 +11,20 @@ interface Chronograph {
   reset: () => void;
 }
 
-const getter = <T>(name: string, defaultValue: T) => (): number | T => {
-  const value = sessionStorage.getItem(name);
-  if (value === null) return defaultValue;
-
-  const num = parseInt(value);
-  return Number.isNaN(num) ? defaultValue : num;
-};
-
-const setter = (name: string) => (value: number | null) => {
-  if (value === null) {
-    sessionStorage.removeItem(name);
-  } else {
-    sessionStorage.setItem(name, `${value}`);
-  }
-};
-
-const getStarted = getter(STARTED, null);
-const setStarted = setter(STARTED);
-const getDuration = getter(DURATION, 0);
-const setDuration = setter(DURATION);
-
 export const useChronograph = (quartz: ComputedRef<number>): Chronograph => {
-  const started = ref<number | null>(0);
-  const stored = ref(0);
+  const [rawStarted, setRawStarted] = useLocalStorage(STARTED);
+  const [rawStored, setRawStored] = useLocalStorage(DURATION);
+
+  const started = computed(() => {
+    if (rawStarted.value === null) return null;
+    const value = parseInt(rawStarted.value, 10);
+    return Number.isFinite(value) ? value : null;
+  });
+  const stored = computed(() => {
+    if (rawStored.value === null) return 0;
+    const value = parseInt(rawStored.value, 10);
+    return Number.isFinite(value) ? value : 0;
+  });
   const duration = computed(() => {
     if (started.value === null) return stored.value;
     return stored.value + quartz.value - started.value;
@@ -47,28 +32,18 @@ export const useChronograph = (quartz: ComputedRef<number>): Chronograph => {
   const paused = computed(() => started.value === null);
 
   const start = () => {
-    started.value = quartz.value;
+    setRawStarted(`${quartz.value}`);
   };
 
   const stop = () => {
     if (started.value === null) return;
-    stored.value += quartz.value - started.value;
-    started.value = null;
+    setRawStored(`${stored.value + quartz.value - started.value}`);
+    setRawStarted(null);
   };
 
-  const reset = () => {
-    stored.value = 0;
-  };
+  const reset = () => setRawStored(null);
 
   const startOrStop = () => (paused.value ? start() : stop());
-
-  onMounted(() => {
-    started.value = getStarted();
-    stored.value = getDuration();
-  });
-
-  watch(started, setStarted);
-  watch(stored, setDuration);
 
   return { duration, paused, startOrStop, reset };
 };
