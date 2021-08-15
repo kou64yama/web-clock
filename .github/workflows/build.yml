@@ -38,21 +38,21 @@ jobs:
           name: dist
           path: dist
 
-      - uses: cypress-io/github-action@v2
-        with:
-          start: npx serve -s dist
-          wait-on: http://localhost:5000
-        env:
-          CYPRESS_baseUrl: http://localhost:5000
+      # - uses: cypress-io/github-action@v2
+      #   with:
+      #     start: yarn serve --port 5000
+      #     wait-on: http://localhost:5000
+      #   env:
+      #     CYPRESS_baseUrl: http://localhost:5000
 
-      - uses: actions/upload-artifact@v1
-        if: failure()
-        with:
-          name: cypress-screenshots
-          path: tests/e2e/screenshots
+      # - uses: actions/upload-artifact@v1
+      #   if: failure()
+      #   with:
+      #     name: cypress-screenshots
+      #     path: tests/e2e/screenshots
 
-      - uses: actions/upload-artifact@v1
-        if: always()
-        with:
-          name: cypress-videos
-          path: tests/e2e/videos
+      # - uses: actions/upload-artifact@v1
+      #   if: always()
+      #   with:
+      #     name: cypress-videos
+      #     path: tests/e2e/videos

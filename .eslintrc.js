@@ -9,5 +9,6 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:vue/vue3-recommended',
     'prettier',
+    'plugin:jest/recommended',
   ],
 };
