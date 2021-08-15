@@ -1,5 +1,5 @@
 <template>
-  <div class="home" ref="root">
+  <div ref="root" class="home">
     <analog-clock
       :quartz="quartz"
       :offset="offset"
@@ -12,16 +12,11 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  onMounted,
-  onBeforeMount,
-} from "@vue/composition-api";
+import { defineComponent, ref, onMounted, onBeforeMount } from 'vue';
 import AnalogClock, {
   useClock,
   useChronograph,
-} from "@/components/AnalogClock";
+} from '../components/AnalogClock';
 
 const offset = new Date(0).getTimezoneOffset();
 

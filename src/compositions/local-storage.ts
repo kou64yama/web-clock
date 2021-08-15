@@ -1,10 +1,4 @@
-import {
-  ref,
-  computed,
-  onMounted,
-  onBeforeUnmount,
-  ComputedRef,
-} from "@vue/composition-api";
+import { computed, ComputedRef, onBeforeUnmount, onMounted, ref } from 'vue';
 
 export type SetValue = (value: string | null) => void;
 
@@ -15,7 +9,7 @@ interface LocalStorageOptions {
 
 export const useLocalStorage = (
   key: string,
-  { window = self, localStorage = self.localStorage }: LocalStorageOptions = {}
+  { window = self, localStorage = self.localStorage }: LocalStorageOptions = {},
 ): [ComputedRef<string | null>, SetValue] => {
   const refValue = ref<string | null>(null);
   const computedValue = computed(() => refValue.value);
@@ -31,12 +25,12 @@ export const useLocalStorage = (
   };
 
   onMounted(() => {
-    window.addEventListener("storage", listener);
+    window.addEventListener('storage', listener);
     refValue.value = localStorage.getItem(key);
   });
 
   onBeforeUnmount(() => {
-    window.removeEventListener("storage", listener);
+    window.removeEventListener('storage', listener);
   });
 
   return [computedValue, setValue];

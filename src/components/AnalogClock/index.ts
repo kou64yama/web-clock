@@ -1,5 +1,5 @@
-import AnalogClock from "./AnalogClock.vue";
+import AnalogClock from './AnalogClock.vue';
 
 export default AnalogClock;
-export { useClock } from "./clock";
-export { useChronograph } from "./chronograph";
+export { useChronograph } from './chronograph';
+export { useClock } from './clock';

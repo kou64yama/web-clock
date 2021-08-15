@@ -38,24 +38,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "@vue/composition-api";
-import ClockFace from "./ClockFace.vue";
-import ShortHand from "./ShortHand.vue";
-import LongHand from "./LongHand.vue";
-import SecondHand from "./SecondHand.vue";
-import ChronographSecondHand from "./ChronographSecondHand.vue";
-import Chronograph30MinuteTotalizerHand from "./Chronograph30MinuteTotalizerHand.vue";
-import Chronograph12HourTotalizerHand from "./Chronograph12HourTotalizerHand.vue";
-import * as format from "./format";
-import { MINUTE } from "./utils";
+import { defineComponent, computed } from 'vue';
+import ClockFace from './ClockFace.vue';
+import ShortHand from './ShortHand.vue';
+import LongHand from './LongHand.vue';
+import SecondHand from './SecondHand.vue';
+import ChronographSecondHand from './ChronographSecondHand.vue';
+import Chronograph30MinuteTotalizerHand from './Chronograph30MinuteTotalizerHand.vue';
+import Chronograph12HourTotalizerHand from './Chronograph12HourTotalizerHand.vue';
+import * as format from './format';
+import { MINUTE } from './utils';
 
 export default defineComponent({
-  props: {
-    quartz: { type: Number, default: 0 },
-    offset: { type: Number, default: 0 },
-    duration: { type: Number, default: 0 },
-    size: { type: Number, default: 240 },
-  },
   components: {
     ClockFace,
     ShortHand,
@@ -65,6 +59,13 @@ export default defineComponent({
     Chronograph30MinuteTotalizerHand,
     Chronograph12HourTotalizerHand,
   },
+  props: {
+    quartz: { type: Number, default: 0 },
+    offset: { type: Number, default: 0 },
+    duration: { type: Number, default: 0 },
+    size: { type: Number, default: 240 },
+  },
+  emits: ['clock-click', 'clock-contextmenu'],
   setup: (props) => ({
     format,
     time: computed(() => props.quartz - props.offset * MINUTE),

@@ -1,6 +1,6 @@
 export const [HOUR, MINUTE, SECOND] = [60, 60, 1000].reduceRight<number[]>(
   ([head, ...tail], scale) => [scale * head, head, ...tail],
-  [1]
+  [1],
 );
 
 type Gear = (x: number) => number;
