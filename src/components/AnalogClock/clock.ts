@@ -1,7 +1,14 @@
-import { computed, ComputedRef, onBeforeUnmount, onMounted, ref } from 'vue';
+import {
+  DeepReadonly,
+  onBeforeUnmount,
+  onMounted,
+  readonly,
+  Ref,
+  ref,
+} from 'vue';
 
 interface Clock {
-  quartz: ComputedRef<number>;
+  quartz: DeepReadonly<Ref<number>>;
 }
 
 export const useClock = (): Clock => {
@@ -23,5 +30,5 @@ export const useClock = (): Clock => {
     if (frame !== null) cancelAnimationFrame(frame);
   });
 
-  return { quartz: computed(() => quartz.value) };
+  return { quartz: readonly(quartz) };
 };
