@@ -9,6 +9,22 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:vue/vue3-recommended',
     'prettier',
-    'plugin:jest/recommended',
+  ],
+  overrides: [
+    {
+      files: [
+        'src/**/*.test.js',
+        'src/**/*.test.ts',
+        'src/**/*.spec.js',
+        'src/**/*.spec.ts',
+        'src/__tests__/**/*.js',
+        'src/__tests__/**/*.ts',
+      ],
+      extends: ['plugin:jest/recommended'],
+    },
+    {
+      files: ['cypress/**/*.js', 'cypress/**/*.ts'],
+      extends: ['plugin:cypress/recommended'],
+    },
   ],
 };
