@@ -1,4 +1,11 @@
-import { computed, ComputedRef, onBeforeUnmount, onMounted, ref } from 'vue';
+import {
+  DeepReadonly,
+  onBeforeUnmount,
+  onMounted,
+  readonly,
+  Ref,
+  ref,
+} from 'vue';
 
 export type SetValue = (value: string | null) => void;
 
@@ -10,9 +17,8 @@ interface LocalStorageOptions {
 export const useLocalStorage = (
   key: string,
   { window = self, localStorage = self.localStorage }: LocalStorageOptions = {},
-): [ComputedRef<string | null>, SetValue] => {
+): [DeepReadonly<Ref<string | null>>, SetValue] => {
   const refValue = ref<string | null>(null);
-  const computedValue = computed(() => refValue.value);
 
   const setValue = (value: string | null) => {
     if (value !== null) localStorage.setItem(key, value);
@@ -33,5 +39,5 @@ export const useLocalStorage = (
     window.removeEventListener('storage', listener);
   });
 
-  return [computedValue, setValue];
+  return [readonly(refValue), setValue];
 };

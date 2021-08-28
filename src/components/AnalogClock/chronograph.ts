@@ -1,17 +1,17 @@
-import { computed, ComputedRef } from 'vue';
+import { computed, DeepReadonly, Ref } from 'vue';
 import { useLocalStorage } from '../../compositions/local-storage';
 
 const STARTED = 'chronograph.started';
 const DURATION = 'chronograph.duration';
 
 interface Chronograph {
-  duration: ComputedRef<number>;
-  paused: ComputedRef<boolean>;
+  duration: DeepReadonly<Ref<number>>;
+  paused: DeepReadonly<Ref<boolean>>;
   startOrStop: () => void;
   reset: () => void;
 }
 
-export const useChronograph = (quartz: ComputedRef<number>): Chronograph => {
+export const useChronograph = (quartz: Ref<number>): Chronograph => {
   const [rawStarted, setRawStarted] = useLocalStorage(STARTED);
   const [rawStored, setRawStored] = useLocalStorage(DURATION);
 
