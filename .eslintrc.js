@@ -19,6 +19,8 @@ module.exports = {
         'src/**/*.spec.ts',
         'src/__tests__/**/*.js',
         'src/__tests__/**/*.ts',
+        'src/__mocks__/**/*.js',
+        'src/__mocks__/**/*.ts',
       ],
       extends: ['plugin:jest/recommended'],
     },
