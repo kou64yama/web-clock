@@ -6,29 +6,28 @@ import {
   Ref,
   ref,
 } from 'vue';
+import { nextFrame } from '../../helpers/frame';
 
 interface Clock {
   quartz: DeepReadonly<Ref<number>>;
 }
 
 export const useClock = (): Clock => {
-  let frame: number | null = null;
   const quartz = ref(0);
+  const ab = new AbortController();
+  const { signal } = ab;
 
-  const tick = () => {
-    const value = Date.now();
-    if (quartz.value !== value) {
+  onMounted(async () => {
+    while (!signal.aborted) {
+      const value = Date.now();
       quartz.value = value;
+      try {
+        await nextFrame({ signal });
+      } catch (aborted) {}
     }
-
-    frame = requestAnimationFrame(tick);
-  };
-
-  onMounted(tick);
-
-  onBeforeUnmount(() => {
-    if (frame !== null) cancelAnimationFrame(frame);
   });
+
+  onBeforeUnmount(() => ab.abort());
 
   return { quartz: readonly(quartz) };
 };
