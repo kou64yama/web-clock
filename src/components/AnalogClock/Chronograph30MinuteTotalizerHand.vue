@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "@vue/composition-api";
-import { gear, MINUTE } from "./utils";
+import { defineComponent, computed } from 'vue';
+import { gear, MINUTE } from './utils';
 
 const reducer = gear(30 * MINUTE, 360);
 

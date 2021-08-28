@@ -1,31 +1,30 @@
 module.exports = {
-  root: true,
-  env: {
-    node: true,
+  parser: 'vue-eslint-parser',
+  parserOptions: {
+    parser: '@typescript-eslint/parser',
   },
   extends: [
-    "plugin:vue/essential",
-    "eslint:recommended",
-    "@vue/typescript/recommended",
-    "@vue/prettier",
-    "@vue/prettier/@typescript-eslint",
+    'plugin:@typescript-eslint/recommended',
+    'standard',
+    'plugin:import/typescript',
+    'plugin:vue/vue3-recommended',
+    'prettier',
   ],
-  parserOptions: {
-    ecmaVersion: 2020,
-  },
-  rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
-  },
   overrides: [
     {
       files: [
-        "**/__tests__/*.{j,t}s?(x)",
-        "**/tests/unit/**/*.spec.{j,t}s?(x)",
+        'src/**/*.test.js',
+        'src/**/*.test.ts',
+        'src/**/*.spec.js',
+        'src/**/*.spec.ts',
+        'src/__tests__/**/*.js',
+        'src/__tests__/**/*.ts',
       ],
-      env: {
-        jest: true,
-      },
+      extends: ['plugin:jest/recommended'],
+    },
+    {
+      files: ['cypress/**/*.js', 'cypress/**/*.ts'],
+      extends: ['plugin:cypress/recommended'],
     },
   ],
 };

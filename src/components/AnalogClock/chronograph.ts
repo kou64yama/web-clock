@@ -1,8 +1,8 @@
-import { computed, ComputedRef } from "@vue/composition-api";
-import { useLocalStorage } from "@/compositions/local-storage";
+import { computed, ComputedRef } from 'vue';
+import { useLocalStorage } from '../../compositions/local-storage';
 
-const STARTED = "chronograph.started";
-const DURATION = "chronograph.duration";
+const STARTED = 'chronograph.started';
+const DURATION = 'chronograph.duration';
 
 interface Chronograph {
   duration: ComputedRef<number>;

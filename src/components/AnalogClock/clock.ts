@@ -1,10 +1,4 @@
-import {
-  ref,
-  computed,
-  onMounted,
-  onBeforeUnmount,
-  ComputedRef,
-} from "@vue/composition-api";
+import { computed, ComputedRef, onBeforeUnmount, onMounted, ref } from 'vue';
 
 interface Clock {
   quartz: ComputedRef<number>;
