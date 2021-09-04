@@ -2,11 +2,6 @@ import { onBeforeUnmount, onMounted, watch } from 'vue';
 import { nextFrame } from '../../helpers/frame';
 import { useClock } from './clock';
 
-jest.mock('vue', () => ({
-  ...jest.requireActual('vue'),
-  onMounted: jest.fn(),
-  onBeforeUnmount: jest.fn(),
-}));
 jest.mock('../../helpers/frame');
 
 const mockedOnMounted = onMounted as jest.Mock<

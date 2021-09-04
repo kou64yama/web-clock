@@ -10,29 +10,30 @@ import {
 export type SetValue = (value: string | null) => void;
 
 interface LocalStorageOptions {
-  window?: Window;
-  localStorage?: Storage;
+  storage?: Storage;
 }
 
 export const useLocalStorage = (
   key: string,
-  { window = self, localStorage = self.localStorage }: LocalStorageOptions = {},
+  { storage = window.localStorage }: LocalStorageOptions = {},
 ): [DeepReadonly<Ref<string | null>>, SetValue] => {
   const refValue = ref<string | null>(null);
 
   const setValue = (value: string | null) => {
-    if (value !== null) localStorage.setItem(key, value);
-    else localStorage.removeItem(key);
+    if (value !== null) storage.setItem(key, value);
+    else storage.removeItem(key);
     refValue.value = value;
   };
 
   const listener = (event: StorageEvent) => {
-    if (event.key === key) refValue.value = event.newValue;
+    if (event.storageArea === storage && event.key === key) {
+      refValue.value = event.newValue;
+    }
   };
 
   onMounted(() => {
     window.addEventListener('storage', listener);
-    refValue.value = localStorage.getItem(key);
+    refValue.value = storage.getItem(key);
   });
 
   onBeforeUnmount(() => {
