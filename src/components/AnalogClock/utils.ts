@@ -1,7 +1,7 @@
-export const [HOUR, MINUTE, SECOND] = [60, 60, 1000].reduceRight<number[]>(
-  ([head, ...tail], scale) => [scale * head, head, ...tail],
-  [1],
-);
+export const MILLISECOND = 1;
+export const SECOND = 1000 * MILLISECOND;
+export const MINUTE = 60 * SECOND;
+export const HOUR = 60 * MINUTE;
 
 type Gear = (x: number) => number;
 
