@@ -9,7 +9,7 @@ const minutes = (duration: number): string =>
 const seconds = (duration: number): string =>
   (Math.floor(duration / SECOND) % 60).toString().padStart(2, '0');
 const millis = (duration: number): string =>
-  (Math.floor(duration) % 1000).toString().padEnd(3, '0');
+  (Math.floor(duration) % 1000).toString().padStart(3, '0');
 
 export const chronograph = (duration: number): string =>
   `${hours(duration)}°${minutes(duration)}'${seconds(duration)}.${millis(
