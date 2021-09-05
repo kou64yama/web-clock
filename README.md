@@ -1,6 +1,6 @@
 # web-clock
 
-[![Node.js CI](https://github.com/kou64yama/web-clock/workflows/Node.js%20CI/badge.svg)](https://github.com/kou64yama/web-clock/actions?query=workflow%3A"Node.js+CI"+branch%3Amain)
+[![Build](https://github.com/kou64yama/web-clock/workflows/Build/badge.svg)](https://github.com/kou64yama/web-clock/actions?query=workflow%3A"Build"+branch%3Amain)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fkou64yama%2Fweb-clock.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fkou64yama%2Fweb-clock?ref=badge_shield)
 
 ## Project setup
