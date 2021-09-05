@@ -5,15 +5,14 @@ export const onResize = (
   hook: (entry: ResizeObserverEntry) => void,
 ): (() => void) => {
   const observer = new ResizeObserver((entries) => hook(entries[0]));
+  const unsub = () => observer.disconnect();
 
   watch(target, (current, previous) => {
     if (previous) observer.unobserve(previous);
     if (current) observer.observe(current);
   });
 
-  onBeforeUnmount(() => {
-    observer.disconnect();
-  });
+  onBeforeUnmount(unsub);
 
-  return () => observer.disconnect();
+  return unsub;
 };

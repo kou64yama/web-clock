@@ -13,11 +13,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import AnalogClock, {
-  useChronograph,
-  useClock,
-} from '../components/AnalogClock';
-import { onResize } from '../compositions/resize';
+import { useChronograph, useQuartz } from '../clock';
+import AnalogClock from '../components/AnalogClock';
+import { onResize } from '../hooks/resize';
 
 const offset = new Date(0).getTimezoneOffset();
 
@@ -27,7 +25,7 @@ export default defineComponent({
   },
   setup: () => {
     const root = ref<HTMLDivElement>();
-    const { quartz } = useClock();
+    const { quartz } = useQuartz();
     const { duration, ...chronograph } = useChronograph(quartz);
     const size = ref(0);
 

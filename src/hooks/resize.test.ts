@@ -3,11 +3,6 @@
 import { nextTick, onBeforeUnmount, ref } from 'vue';
 import { onResize } from './resize';
 
-jest.mock('vue', () => ({
-  ...jest.requireActual('vue'),
-  onBeforeUnmount: jest.fn(),
-}));
-
 let MockedResizeObserver: jest.Mock<
   ResizeObserver,
   [callback: ResizeObserverCallback]
