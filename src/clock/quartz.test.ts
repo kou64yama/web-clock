@@ -1,8 +1,8 @@
 import { onBeforeUnmount, onMounted, watch } from 'vue';
-import { nextFrame } from '../../helpers/frame';
-import { useClock } from './clock';
+import { nextFrame } from '../helpers/frame';
+import { useQuartz } from './quartz';
 
-jest.mock('../../helpers/frame');
+jest.mock('../helpers/frame');
 
 const mockedOnMounted = onMounted as jest.Mock<
   ReturnType<typeof onMounted>,
@@ -23,7 +23,7 @@ beforeEach(() => {
 });
 
 test('default value is zero', () => {
-  const { quartz } = useClock();
+  const { quartz } = useQuartz();
   expect(quartz.value).toBe(0);
   expect(mockedOnMounted).toBeCalled();
   expect(mockedOnBeforeUnmount).toBeCalled();
@@ -32,7 +32,7 @@ test('default value is zero', () => {
 test('set epoch time on mounted', () => {
   mockedNextFrame.mockResolvedValue(0);
   mockedNow.mockReturnValueOnce(17);
-  const { quartz } = useClock();
+  const { quartz } = useQuartz();
   mockedOnMounted.mock.calls.forEach(([fn]) => fn());
   mockedOnBeforeUnmount.mock.calls.forEach(([fn]) => fn());
   expect(quartz.value).toBe(17);
@@ -44,7 +44,7 @@ test('set epoch time on animation frame', async () => {
     return Promise.resolve(0);
   });
   mockedNow.mockReturnValueOnce(1).mockReturnValueOnce(2);
-  const { quartz } = useClock();
+  const { quartz } = useQuartz();
   await mockedOnMounted.mock.calls
     .map(([fn]) => fn())
     .reduce<Promise<void>>(async (acc, value) => {
@@ -64,7 +64,7 @@ test('ignore same value', async () => {
     });
   mockedNow.mockReturnValue(1);
   const watcher = jest.fn();
-  const { quartz } = useClock();
+  const { quartz } = useQuartz();
   watch(quartz, watcher);
   await mockedOnMounted.mock.calls
     .map(([fn]) => fn())

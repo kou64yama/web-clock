@@ -1,8 +1,8 @@
 import { computed, DeepReadonly, Ref } from 'vue';
-import { useLocalStorage } from '../../compositions/local-storage';
+import { useLocalStorage } from '../compositions/storage';
 
-const STARTED = 'chronograph.started';
-const DURATION = 'chronograph.duration';
+export const STARTED = 'chronograph.started';
+export const DURATION = 'chronograph.duration';
 
 interface Chronograph {
   duration: DeepReadonly<Ref<number>>;
@@ -11,9 +11,11 @@ interface Chronograph {
   reset: () => void;
 }
 
-export const useChronograph = (quartz: Ref<number>): Chronograph => {
-  const [rawStarted, setRawStarted] = useLocalStorage(STARTED);
-  const [rawStored, setRawStored] = useLocalStorage(DURATION);
+export const useChronograph = (
+  quartz: DeepReadonly<Ref<number>>,
+): Chronograph => {
+  const rawStarted = useLocalStorage(STARTED);
+  const rawStored = useLocalStorage(DURATION);
 
   const started = computed(() => {
     if (rawStarted.value === null) return null;
@@ -31,19 +33,19 @@ export const useChronograph = (quartz: Ref<number>): Chronograph => {
   });
   const paused = computed(() => started.value === null);
 
-  const start = () => {
-    setRawStarted(`${quartz.value}`);
+  const reset = () => {
+    rawStarted.value = null;
+    rawStored.value = null;
   };
 
-  const stop = () => {
-    if (started.value === null) return;
-    setRawStored(`${stored.value + quartz.value - started.value}`);
-    setRawStarted(null);
+  const startOrStop = () => {
+    if (started.value === null) {
+      rawStarted.value = `${quartz.value}`;
+    } else {
+      rawStored.value = `${stored.value + quartz.value - started.value}`;
+      rawStarted.value = null;
+    }
   };
-
-  const reset = () => setRawStored(null);
-
-  const startOrStop = () => (paused.value ? start() : stop());
 
   return { duration, paused, startOrStop, reset };
 };

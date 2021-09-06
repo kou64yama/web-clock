@@ -6,13 +6,13 @@ import {
   Ref,
   ref,
 } from 'vue';
-import { nextFrame } from '../../helpers/frame';
+import { nextFrame } from '../helpers/frame';
 
-interface Clock {
+interface Quartz {
   quartz: DeepReadonly<Ref<number>>;
 }
 
-export const useClock = (): Clock => {
+export const useQuartz = (): Quartz => {
   const quartz = ref(0);
   const ab = new AbortController();
   const { signal } = ab;
