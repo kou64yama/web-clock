@@ -1,4 +1,4 @@
-import { AbortError, nextFrame } from './frame';
+import { nextFrame } from './frame';
 
 let requestAnimationFrame: jest.Mock<
   ReturnType<Window['requestAnimationFrame']>,
@@ -17,19 +17,35 @@ beforeEach(() => {
 });
 
 test('wait animation frame', async () => {
+  const handler = 1;
+  requestAnimationFrame.mockReturnValueOnce(handler);
+  const time = 17;
   const result = nextFrame();
-  requestAnimationFrame.mock.calls.forEach(([fn]) => fn(17));
-  await expect(result).resolves.toBe(17);
-  expect(requestAnimationFrame).toBeCalled();
-  expect(cancelAnimationFrame).not.toBeCalled();
+  requestAnimationFrame.mock.calls.forEach(([fn]) => fn(time));
+  await expect(result).resolves.toBe(time);
 });
 
 test('be able to abort', async () => {
+  const handler = 1;
+  requestAnimationFrame.mockReturnValueOnce(handler);
   const ab = new AbortController();
   const { signal } = ab;
   const result = nextFrame({ signal });
   ab.abort();
-  await expect(result).rejects.toThrow(AbortError);
-  expect(requestAnimationFrame).toBeCalled();
-  expect(cancelAnimationFrame).toBeCalled();
+  await expect(result).rejects.toThrowError();
+  const error = await result.catch((err) => err);
+  expect(error.name).toBe('AbortError');
+  expect(cancelAnimationFrame).toBeCalledWith(handler);
+});
+
+test('aborted signal', async () => {
+  const ab = new AbortController();
+  const { signal } = ab;
+  ab.abort();
+  const result = nextFrame({ signal });
+  await expect(result).rejects.toThrowError();
+  const error = await result.catch((err) => err);
+  expect(error.name).toBe('AbortError');
+  expect(requestAnimationFrame).not.toBeCalled();
+  expect(cancelAnimationFrame).not.toBeCalled();
 });
