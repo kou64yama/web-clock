@@ -11,17 +11,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
-import { gear, MINUTE } from './utils';
-
-const reducer = gear(MINUTE, 360);
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
-    duration: { type: Number, default: 0 },
+    theta: { type: Number, required: true },
   },
-  setup: (props) => ({
-    theta: computed(() => reducer(props.duration)),
-  }),
 });
 </script>

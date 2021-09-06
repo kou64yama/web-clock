@@ -5,10 +5,9 @@
     <circle cx="50" cy="70" r="13" fill="#222222" />
     <circle cx="30" cy="50" r="13" fill="#222222" />
     <circle cx="70" cy="50" r="13" fill="#222222" />
-    <template v-for="i in range(0, 299)">
+    <template v-for="i in range(0, 299)" :key="`main.scale.${i}`">
       <path
         v-if="i % 75 === 0"
-        :key="`main.scale.${i}`"
         :d="`M 50 6 L 50 9`"
         stroke="#ff0000"
         stroke-width="0.7"
@@ -16,7 +15,6 @@
       />
       <path
         v-else-if="i % 25 === 0"
-        :key="`main.scale.${i}`"
         :d="`M 50 6 L 50 9`"
         stroke="#cccccc"
         stroke-width="0.5"
@@ -24,7 +22,6 @@
       />
       <path
         v-else-if="i % 5 === 0"
-        :key="`main.scale.${i}`"
         :d="`M 50 6 L 50 9`"
         stroke="#cccccc"
         stroke-width="0.2"
@@ -32,7 +29,6 @@
       />
       <path
         v-else
-        :key="`main.scale.${i}`"
         :d="`M 50 7 L 50 8`"
         stroke="#cccccc"
         stroke-width="0.2"
@@ -47,10 +43,9 @@
         :transform="`rotate(${i * 30}, 50, 50)`"
       />
     </template>
-    <template v-for="i in range(0, 59)">
+    <template v-for="i in range(0, 59)" :key="`small-second.scale.${i}`">
       <path
         v-if="i % 5 === 0"
-        :key="`small-second.scale.${i}`"
         :d="`M 30 37.5 L 30 40`"
         stroke="#cccccc"
         stroke-width="0.3"
@@ -58,17 +53,15 @@
       />
       <path
         v-else
-        :key="`small-second.scale.${i}`"
         :d="`M 30 37.5 L 30 39`"
         stroke="#cccccc"
         stroke-width="0.2"
         :transform="`rotate(${i * 6}, 30, 50)`"
       />
     </template>
-    <template v-for="i in range(0, 29)">
+    <template v-for="i in range(0, 29)" :key="`30-minute-totalizer.scale.${i}`">
       <path
         v-if="i % 5 === 0"
-        :key="`30-minute-totalizer.scale.${i}`"
         :d="`M 70 37.5 L 70 40`"
         stroke="#cccccc"
         stroke-width="0.3"
@@ -76,7 +69,6 @@
       />
       <path
         v-else
-        :key="`30-minute-totalizer.scale.${i}`"
         :d="`M 70 37.5 L 70 39`"
         stroke="#cccccc"
         stroke-width="0.2"

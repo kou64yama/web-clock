@@ -74,3 +74,25 @@ test('ignore same value', async () => {
     }, Promise.resolve());
   expect(watcher).toBeCalledTimes(1);
 });
+
+test('performance', async () => {
+  mockedNextFrame
+    .mockResolvedValueOnce(500)
+    .mockResolvedValueOnce(1000)
+    .mockImplementationOnce(() => {
+      mockedOnBeforeUnmount.mock.calls.forEach(([fn]) => fn());
+      return Promise.resolve(1500);
+    });
+  mockedNow.mockReturnValueOnce(0);
+  const { performance } = useQuartz();
+  await mockedOnMounted.mock.calls
+    .map(([fn]) => fn())
+    .reduce<Promise<void>>(async (acc, value) => {
+      await acc;
+      await value;
+    }, Promise.resolve());
+  expect(performance.fps).toBe(2);
+  expect(performance.frames).toBe(2);
+  expect(performance.delta).toBe(1000);
+  expect(performance.time).toBe(1000);
+});
