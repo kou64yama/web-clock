@@ -41,6 +41,8 @@ jobs:
           name: dist
           path: dist
 
+      - uses: codecov/codecov-action@v2
+
   e2e-test:
     runs-on: ubuntu-latest
     container: cypress/browsers:node14.17.0-chrome91-ff89
