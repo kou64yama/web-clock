@@ -11,6 +11,8 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "date-fns": "^2.23.0",
+    "date-fns-tz": "^1.1.6",
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.5",
     "vue-router": "4"
