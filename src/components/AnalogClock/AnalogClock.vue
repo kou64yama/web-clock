@@ -9,23 +9,23 @@
       role="presentation"
     >
       <g
-        @click="$emit('chronograph:start-or-stop', duration)"
-        @contextmenu.prevent="$emit('chronograph:reset', duration)"
+        @click.left="$emit('chronograph:start-or-stop', duration)"
+        @click.right.prevent="$emit('chronograph:reset', duration)"
       >
         <clock-face />
         <g
-          font-size="6"
-          font-family="VT323"
+          font-family="Repetition Scrolling"
           text-anchor="middle"
           dominant-baseline="central"
           fill="#999999"
         >
-          <text
-            v-if="duration > 0"
-            x="50"
-            y="30"
-            v-text="chronograph(duration)"
-          />
+          <template v-if="duration > 0">
+            <text font-size="6" x="50" y="30" v-text="chronograph(duration)" />
+          </template>
+          <template v-else>
+            <text font-size="4" x="50" y="27" v-text="date(epoch, timeZone)" />
+            <text font-size="5" x="50" y="32" v-text="time(epoch, timeZone)" />
+          </template>
         </g>
         <second-hand :theta="clock.second" />
         <totalizer-30-minute-hand :theta="totalizer.thirty" />
@@ -39,9 +39,10 @@
 </template>
 
 <script lang="ts">
+import { getTimezoneOffset } from 'date-fns-tz';
 import { computed, defineComponent } from 'vue';
 import ClockFace from './ClockFace.vue';
-import { chronograph } from './format';
+import { chronograph, date, time } from './format';
 import LongHand from './LongHand.vue';
 import SecondHand from './SecondHand.vue';
 import ShortHand from './ShortHand.vue';
@@ -62,8 +63,8 @@ export default defineComponent({
   },
   props: {
     duration: { type: Number, default: 0 },
-    offset: { type: Number, default: 0 },
     quartz: { type: Number, default: 0 },
+    timeZone: { type: String, default: 'UTC' },
   },
   emits: {
     'chronograph:start-or-stop': (duration: number) =>
@@ -71,6 +72,7 @@ export default defineComponent({
     'chronograph:reset': (duration: number) => Number.isFinite(duration),
   },
   setup: (props) => {
+    const epoch = computed(() => Math.floor(props.quartz / 1000) * 1000);
     const gears = {
       ratio12Hours: gear(12 * HOUR, 360),
       ratioHour: gear(HOUR, 360),
@@ -78,7 +80,7 @@ export default defineComponent({
       ratio30Minutes: gear(30 * MINUTE, 360),
     };
     const clock = computed(() => {
-      const time = props.quartz - props.offset * MINUTE;
+      const time = props.quartz + getTimezoneOffset(props.timeZone);
       return {
         short: gears.ratio12Hours(time),
         long: gears.ratioHour(time),
@@ -91,9 +93,12 @@ export default defineComponent({
       twelve: gears.ratio12Hours(props.duration),
     }));
     return {
+      epoch,
       clock,
       totalizer,
       chronograph,
+      date,
+      time,
     };
   },
 });

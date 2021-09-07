@@ -1,3 +1,4 @@
+import { formatWithOptions, utcToZonedTime } from 'date-fns-tz/fp';
 import { HOUR, MILLISECOND, MINUTE, SECOND } from './utils';
 
 const hours = (duration: number): string =>
@@ -19,3 +20,13 @@ export const chronograph = (duration: number): string =>
   `${hours(duration)}°${minutes(duration)}'${seconds(duration)}.${millis(
     duration,
   )}"`;
+
+export const date = (time: number, timeZone: string): string =>
+  [time]
+    .map(utcToZonedTime(timeZone))
+    .map(formatWithOptions({ timeZone }, 'yyyy-MM-dd'))[0];
+
+export const time = (time: number, timeZone: string): string =>
+  [time]
+    .map(utcToZonedTime(timeZone))
+    .map(formatWithOptions({ timeZone }, 'HH:mm:ss'))[0];
