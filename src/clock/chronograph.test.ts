@@ -1,16 +1,19 @@
 import { computed, ref } from 'vue';
-import { useLocalStorage } from '../compositions/storage';
+import { localStorageRef } from '../refs/storage';
 import { DURATION, STARTED, useChronograph } from './chronograph';
 
-jest.mock('../compositions/storage');
+jest.mock('../refs/storage');
 
-const mockedUseLocalStorage = useLocalStorage as jest.Mock<
-  ReturnType<typeof useLocalStorage>,
-  Parameters<typeof useLocalStorage>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type MockOf<T extends (...args: any[]) => any> = jest.Mock<
+  ReturnType<T>,
+  Parameters<T>
 >;
 
-const storage = (initialValue: string | null) => {
-  const refValue = ref<string | null>(initialValue);
+const mockedLocalStorageRef = localStorageRef as MockOf<typeof localStorageRef>;
+
+const storage = <T>(initialValue: T) => {
+  const refValue = ref<T>(initialValue);
   return computed({
     get: () => refValue.value,
     set: (value) => (refValue.value = value),
@@ -18,11 +21,11 @@ const storage = (initialValue: string | null) => {
 };
 
 test('initial value', () => {
-  const rawStarted = storage(null);
-  const rawStored = storage(null);
-  mockedUseLocalStorage.mockImplementation((key) => {
-    if (key === STARTED) return rawStarted;
-    if (key === DURATION) return rawStored;
+  const started = storage<number | null>(null);
+  const stored = storage<number>(0);
+  mockedLocalStorageRef.mockImplementation((key) => {
+    if (key === STARTED) return started;
+    if (key === DURATION) return stored;
     return storage(null);
   });
 
@@ -33,11 +36,11 @@ test('initial value', () => {
 });
 
 test('started', () => {
-  const rawStarted = storage('0');
-  const rawStored = storage(null);
-  mockedUseLocalStorage.mockImplementation((key) => {
-    if (key === STARTED) return rawStarted;
-    if (key === DURATION) return rawStored;
+  const started = storage<number | null>(0);
+  const stored = storage<number>(0);
+  mockedLocalStorageRef.mockImplementation((key) => {
+    if (key === STARTED) return started;
+    if (key === DURATION) return stored;
     return storage(null);
   });
 
@@ -48,11 +51,11 @@ test('started', () => {
 });
 
 test('stored', () => {
-  const rawStarted = storage('20');
-  const rawStored = storage('10');
-  mockedUseLocalStorage.mockImplementation((key) => {
-    if (key === STARTED) return rawStarted;
-    if (key === DURATION) return rawStored;
+  const started = storage<number | null>(20);
+  const stored = storage<number>(10);
+  mockedLocalStorageRef.mockImplementation((key) => {
+    if (key === STARTED) return started;
+    if (key === DURATION) return stored;
     return storage(null);
   });
 
@@ -63,11 +66,11 @@ test('stored', () => {
 });
 
 test('start', () => {
-  const rawStarted = storage(null);
-  const rawStored = storage(null);
-  mockedUseLocalStorage.mockImplementation((key) => {
-    if (key === STARTED) return rawStarted;
-    if (key === DURATION) return rawStored;
+  const started = storage<number | null>(null);
+  const stored = storage<number>(0);
+  mockedLocalStorageRef.mockImplementation((key) => {
+    if (key === STARTED) return started;
+    if (key === DURATION) return stored;
     return storage(null);
   });
 
@@ -80,11 +83,11 @@ test('start', () => {
 });
 
 test('stop', () => {
-  const rawStarted = storage('0');
-  const rawStored = storage(null);
-  mockedUseLocalStorage.mockImplementation((key) => {
-    if (key === STARTED) return rawStarted;
-    if (key === DURATION) return rawStored;
+  const started = storage<number | null>(0);
+  const stored = storage<number>(0);
+  mockedLocalStorageRef.mockImplementation((key) => {
+    if (key === STARTED) return started;
+    if (key === DURATION) return stored;
     return storage(null);
   });
 
@@ -96,47 +99,17 @@ test('stop', () => {
 });
 
 test('reset', () => {
-  const rawStarted = storage('0');
-  const rawStored = storage('10');
-  mockedUseLocalStorage.mockImplementation((key) => {
-    if (key === STARTED) return rawStarted;
-    if (key === DURATION) return rawStored;
+  const started = storage<number | null>(0);
+  const stored = storage<number>(10);
+  mockedLocalStorageRef.mockImplementation((key) => {
+    if (key === STARTED) return started;
+    if (key === DURATION) return stored;
     return storage(null);
   });
 
   const quartz = ref(100);
   const { duration, paused, reset } = useChronograph(quartz);
   reset();
-  expect(duration.value).toBe(0);
-  expect(paused.value).toBeTruthy();
-});
-
-test('invalid started value stored', () => {
-  const rawStarted = storage('invalid');
-  const rawStored = storage(null);
-  mockedUseLocalStorage.mockImplementation((key) => {
-    if (key === STARTED) return rawStarted;
-    if (key === DURATION) return rawStored;
-    return storage(null);
-  });
-
-  const quartz = ref(0);
-  const { duration, paused } = useChronograph(quartz);
-  expect(duration.value).toBe(0);
-  expect(paused.value).toBeTruthy();
-});
-
-test('invalid duration value stored', () => {
-  const rawStarted = storage(null);
-  const rawStored = storage('invalid');
-  mockedUseLocalStorage.mockImplementation((key) => {
-    if (key === STARTED) return rawStarted;
-    if (key === DURATION) return rawStored;
-    return storage(null);
-  });
-
-  const quartz = ref(0);
-  const { duration, paused } = useChronograph(quartz);
   expect(duration.value).toBe(0);
   expect(paused.value).toBeTruthy();
 });

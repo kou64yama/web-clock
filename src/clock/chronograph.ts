@@ -1,5 +1,6 @@
 import { computed, DeepReadonly, Ref } from 'vue';
-import { useLocalStorage } from '../compositions/storage';
+import { localStorageRef } from '../refs/storage';
+import { NumberNullableSerDe, NumberSerDe } from '../refs/storage/serde';
 
 export const STARTED = 'chronograph.started';
 export const DURATION = 'chronograph.duration';
@@ -14,18 +15,11 @@ interface Chronograph {
 export const useChronograph = (
   quartz: DeepReadonly<Ref<number>>,
 ): Chronograph => {
-  const rawStarted = useLocalStorage(STARTED);
-  const rawStored = useLocalStorage(DURATION);
-
-  const started = computed(() => {
-    if (rawStarted.value === null) return null;
-    const value = parseInt(rawStarted.value, 10);
-    return Number.isFinite(value) ? value : null;
+  const started = localStorageRef<number | null>(STARTED, {
+    serde: new NumberNullableSerDe(),
   });
-  const stored = computed(() => {
-    if (rawStored.value === null) return 0;
-    const value = parseInt(rawStored.value, 10);
-    return Number.isFinite(value) ? value : 0;
+  const stored = localStorageRef<number>(DURATION, {
+    serde: new NumberSerDe(),
   });
   const duration = computed(() => {
     if (started.value === null) return stored.value;
@@ -34,16 +28,16 @@ export const useChronograph = (
   const paused = computed(() => started.value === null);
 
   const reset = () => {
-    rawStarted.value = null;
-    rawStored.value = null;
+    started.value = null;
+    stored.value = 0;
   };
 
   const startOrStop = () => {
     if (started.value === null) {
-      rawStarted.value = `${quartz.value}`;
+      started.value = quartz.value;
     } else {
-      rawStored.value = `${stored.value + quartz.value - started.value}`;
-      rawStarted.value = null;
+      stored.value = stored.value + quartz.value - started.value;
+      started.value = null;
     }
   };
 
