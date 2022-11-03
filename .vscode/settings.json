@@ -5,13 +5,10 @@
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "typescript.tsdk": "node_modules/typescript/lib",
   "json.schemas": [
     {
       "url": "https://raw.githubusercontent.com/cypress-io/cypress/develop/cli/schema/cypress.schema.json",
-      "fileMatch": [
-        "cypress.json"
-      ]
+      "fileMatch": ["cypress.json"]
     }
   ],
   "yaml.schemas": {
