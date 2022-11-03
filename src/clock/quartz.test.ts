@@ -25,8 +25,8 @@ beforeEach(() => {
 test('default value is zero', () => {
   const { quartz } = useQuartz();
   expect(quartz.value).toBe(0);
-  expect(mockedOnMounted).toBeCalled();
-  expect(mockedOnBeforeUnmount).toBeCalled();
+  expect(mockedOnMounted).toHaveBeenCalled();
+  expect(mockedOnBeforeUnmount).toHaveBeenCalled();
 });
 
 test('set epoch time on mounted', () => {
@@ -72,7 +72,7 @@ test('ignore same value', async () => {
       await acc;
       await value;
     }, Promise.resolve());
-  expect(watcher).toBeCalledTimes(1);
+  expect(watcher).toHaveBeenCalledTimes(1);
 });
 
 test('performance', async () => {

@@ -91,8 +91,9 @@
         text-anchor="middle"
         dominant-baseline="central"
         fill="#cccccc"
-        v-text="i"
-      />
+      >
+        {{ i }}
+      </text>
     </template>
     <template v-for="i in [10, 20, 30]" :key="`30-minute-totalizer.label.${i}`">
       <text
@@ -102,8 +103,9 @@
         text-anchor="middle"
         dominant-baseline="central"
         fill="#cccccc"
-        v-text="i"
-      />
+      >
+        {{ i }}
+      </text>
     </template>
     <template v-for="i in [3, 6, 9, 12]" :key="`12-hour-totalizer.label.${i}`">
       <text
@@ -113,8 +115,9 @@
         text-anchor="middle"
         dominant-baseline="central"
         fill="#cccccc"
-        v-text="i"
-      />
+      >
+        {{ i }}
+      </text>
     </template>
   </g>
 </template>

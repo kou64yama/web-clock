@@ -28,13 +28,13 @@ beforeEach(() => {
 test('lifecycle', () => {
   onStorage(() => null);
 
-  expect(mockedAddEventListener).not.toBeCalled();
+  expect(mockedAddEventListener).not.toHaveBeenCalled();
   mockedOnMounted.mock.calls.forEach(([hook]) => hook());
-  expect(mockedAddEventListener).toBeCalledWith('storage', expect.anything());
+  expect(mockedAddEventListener).toHaveBeenCalledWith('storage', expect.anything());
 
-  expect(mockedRemoveEventListener).not.toBeCalled();
+  expect(mockedRemoveEventListener).not.toHaveBeenCalled();
   mockedOnBeforeUnmount.mock.calls.forEach(([hook]) => hook());
-  expect(mockedRemoveEventListener).toBeCalledWith(
+  expect(mockedRemoveEventListener).toHaveBeenCalledWith(
     ...mockedAddEventListener.mock.calls[0],
   );
 });
@@ -42,13 +42,13 @@ test('lifecycle', () => {
 test('unsubscribe', () => {
   const unsub = onStorage(() => null);
 
-  expect(mockedAddEventListener).not.toBeCalled();
+  expect(mockedAddEventListener).not.toHaveBeenCalled();
   mockedOnMounted.mock.calls.forEach(([hook]) => hook());
-  expect(mockedAddEventListener).toBeCalledWith('storage', expect.anything());
+  expect(mockedAddEventListener).toHaveBeenCalledWith('storage', expect.anything());
 
-  expect(mockedRemoveEventListener).not.toBeCalled();
+  expect(mockedRemoveEventListener).not.toHaveBeenCalled();
   unsub();
-  expect(mockedRemoveEventListener).toBeCalledWith(
+  expect(mockedRemoveEventListener).toHaveBeenCalledWith(
     ...mockedAddEventListener.mock.calls[0],
   );
 });

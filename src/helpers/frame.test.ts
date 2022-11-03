@@ -32,10 +32,10 @@ test('be able to abort', async () => {
   const { signal } = ab;
   const result = nextFrame({ signal });
   ab.abort();
-  await expect(result).rejects.toThrowError();
+  await expect(result).rejects.toThrow();
   const error = await result.catch((err) => err);
   expect(error.name).toBe('AbortError');
-  expect(cancelAnimationFrame).toBeCalledWith(handler);
+  expect(cancelAnimationFrame).toHaveBeenCalledWith(handler);
 });
 
 test('aborted signal', async () => {
@@ -43,9 +43,9 @@ test('aborted signal', async () => {
   const { signal } = ab;
   ab.abort();
   const result = nextFrame({ signal });
-  await expect(result).rejects.toThrowError();
+  await expect(result).rejects.toThrow();
   const error = await result.catch((err) => err);
   expect(error.name).toBe('AbortError');
-  expect(requestAnimationFrame).not.toBeCalled();
-  expect(cancelAnimationFrame).not.toBeCalled();
+  expect(requestAnimationFrame).not.toHaveBeenCalled();
+  expect(cancelAnimationFrame).not.toHaveBeenCalled();
 });
